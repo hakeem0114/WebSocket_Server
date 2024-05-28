@@ -10,7 +10,7 @@ const router = Router()
 
 //Create Routes
 router.get('/allUsers', getUsers)
-router.post('/create',createUser)
+router.post('/create',createUser) 
 router.patch('/update/:id',updateUser)
 
 

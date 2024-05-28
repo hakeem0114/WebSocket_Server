@@ -1,6 +1,7 @@
 import express, {Request, Response} from 'express'
 import cors from 'cors';
 import dotenv from 'dotenv'
+import userRoutes from './routes/userRoutes'
 import { initializeDB } from './db/initializeKnexTable';
 dotenv.config()
 
@@ -20,7 +21,7 @@ initializeDB()
 app.get('/user',(req:Request, res:Response)=>{
     res.status(200).json({Message:'Start of Websocket App'})
 })
-
+app.use('/user',userRoutes)
 
 //Start Server
 app.listen(PORT, ()=>{

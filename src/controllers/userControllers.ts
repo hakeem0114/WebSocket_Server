@@ -22,7 +22,7 @@ export const getUsers = async(req: Request, res: Response): Promise<void> =>{
         res.status(200).json(users)   
         
         if(users.length == 0){
-            throw new Error('Empty Users Table')
+            res.status(404).json({message: 'Empty Table'})
         }
     }
     catch(err:any){
