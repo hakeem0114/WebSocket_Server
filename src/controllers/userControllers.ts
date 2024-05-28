@@ -14,6 +14,8 @@ import {
 //Yup Imports
 import { validateUserObject } from '../utils/validateSchema'
 
+//WebSocket Imports 
+import { broadCast } from "../utils/reactWebSocket"
 
 
 export const getUsers = async(req: Request, res: Response): Promise<void> =>{
@@ -32,8 +34,22 @@ export const getUsers = async(req: Request, res: Response): Promise<void> =>{
 
 export const createUser = async(req: Request, res: Response): Promise<void> =>{
     try{
+
+        //dB 
         const validatedNewUserBody = await validateUserObject.validate(req.body) as User
         const createdUser = await addUser(validatedNewUserBody)
+
+        //Websocket
+        const id = createdUser.id
+        broadCast({
+            event:'createdUser',
+            data:{
+                id,
+                ...createdUser
+            }
+        }) //Send back new user object
+
+        //Response
         res.status(201).json({message:`Created User: ${createdUser}`})                     
     }
     catch(err:any){
@@ -46,6 +62,16 @@ export const updateUser = async(req: Request, res: Response): Promise<void> =>{
         const validatedBodyToUpdate = await validateUserObject.validate(req.body) as User
         const {id} = req.params
         const updatedUser = await updateUserById(Number(id),validatedBodyToUpdate)
+
+        //Websocket
+        broadCast({
+            event:'updatedUser',
+            data:{
+                id,
+                ...updatedUser
+            }
+        }) //Send back new user object
+        
         res.status(200).json({message:`Updated User: ${updatedUser}`})                     
     }
     catch(err:any){
