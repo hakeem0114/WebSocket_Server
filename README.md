@@ -10,7 +10,7 @@ Tsx-Websocket NodeJS server
 - [x] Yup Schema Validation
 - [x] Setup Supertest  with jest
 - [x] Test APIs with Postman 
-- [ ] Implement Websockets  
+- [x] Implement Websockets  
 
 
 
